@@ -28,14 +28,29 @@ namespace Push4711.Receiver
             }
         }
 
-        private IDictionary<Type, List<StoredSubscription>> NotificationCallbackRegister = new Dictionary<Type, List<StoredSubscription>>();
+        private readonly IDictionary<Type, List<StoredSubscription>> NotificationCallbackRegister = new Dictionary<Type, List<StoredSubscription>>();
+        private readonly IPushNotificationReceiverConfiguration _config;
+
+        public PushNotificationHandler(IPushNotificationReceiverConfiguration config)
+        {
+            this._config = config;
+        }
 
         public void OnDataNotification(RawJsonNotification rawJsonNotification)
         {
             if (rawJsonNotification.EmbeddedType == null || string.IsNullOrEmpty(rawJsonNotification.JsonPayload))
                 return;
 
-            var typeString = $"{rawJsonNotification.EmbeddedType}, Commons.DataModels";
+            string typeString;
+            if (rawJsonNotification.EmbeddedType.Contains(',') || string.IsNullOrEmpty(this._config.DefaultTypeSearchAssembly))
+            {
+                typeString = rawJsonNotification.EmbeddedType;
+            }
+            else
+            {
+                typeString = $"{rawJsonNotification.EmbeddedType}, {this._config.DefaultTypeSearchAssembly}";
+            }
+
             var embeddedType = Type.GetType(typeString, false);
             if (embeddedType == null)
             {

@@ -3,6 +3,15 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <Nullable>enable</Nullable>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>Max4711</Authors>
+    <Company>Studio4711</Company>
+    <Product>Push4711</Product>
+    <Description>Library containing common types to be used within Push4711.Sender and Push4711.Receiver. Provides no functionality itself.</Description>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <RepositoryUrl>https://github.com/max-4711/ez-event-push</RepositoryUrl>
+    <RepositoryType>Git</RepositoryType>
+    <PackageReleaseNotes>1.0.0: Initial release</PackageReleaseNotes>
   </PropertyGroup>
 
 </Project>

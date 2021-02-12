@@ -33,7 +33,7 @@ namespace Push4711.Receiver
 
     public class SignalRNotificationReceiver : INotificationReceiver
     {
-        private HubConnection _hubConnection;
+        private HubConnection? _hubConnection;
         private IPushNotificationReceiverConfiguration _config;
         private IPushNotificationHandler _notificationHandler;
 
@@ -49,7 +49,7 @@ namespace Push4711.Receiver
 
         public string? ConnectionId => this._hubConnection?.ConnectionId;
 
-        public event EventHandler<HubConnectionStateChangedEventArgs> ConnectionStateChanged;
+        public event EventHandler<HubConnectionStateChangedEventArgs>? ConnectionStateChanged;
 
         public async Task InitializeAsync()
         {

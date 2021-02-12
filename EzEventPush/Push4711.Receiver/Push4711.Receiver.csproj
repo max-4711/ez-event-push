@@ -3,6 +3,15 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <Nullable>enable</Nullable>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>Max4711</Authors>
+    <Company>Studio4711</Company>
+    <Product>Push4711</Product>
+    <Description>Allows to easily send (use package Push4711.Sender) and receive (with this pacakge) typed push notifications via SignalR. Could be -for example- used to send notifications and/or data from an ASP.NET Core Webservice to a Blazor Frontend.</Description>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <RepositoryUrl>https://github.com/max-4711/ez-event-push</RepositoryUrl>
+    <RepositoryType>Git</RepositoryType>
+    <PackageReleaseNotes>1.0.0: Initial release</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
