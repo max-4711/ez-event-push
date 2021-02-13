@@ -44,9 +44,9 @@ To enable make this work, your transmitted data class -in this case YourDataClas
     }
 
 ## Receiver
-Preparation: Install NuGet pacakge `Push4711.Receiver` to your project.
+Preparation: Install NuGet package `Push4711.Receiver` to your project.
 
-The receiver needs a little bit more configuration effort. To be functional, the receiver needs a configuration; an object implementing the IPushNotificationReceiverConfiguration interface. You can either implement something yourself (in case you need some kind of dynamic configuration) or just use the included PushNotificationReceiverConfiguration class. You don't even need to instantiate it yourself, as you just can just set the whole thing up by this setup method (which adds everything needed to the IoC container):
+The receiver needs a little bit more configuration effort. To be functional, the receiver needs a configuration object implementing the IPushNotificationReceiverConfiguration interface. You can either implement something yourself (in case you need some kind of dynamic configuration) or just use the included PushNotificationReceiverConfiguration class. You don't even need to instantiate it yourself, as you just can just set the whole thing up by this setup method (which adds everything needed to the IoC container):
 
     using Push4711.Receiver;
 
@@ -59,13 +59,13 @@ The receiver needs a little bit more configuration effort. To be functional, the
         services.Add("https://my-random-hostname:4711/notificationHub/", "MyProject.CommonCode");
     }
 
-This example code will expect your server to receive push data from at `https://my-random-hostname:4711/notificationHub/` and will search for the type definitions of received events by default in `MyProject.CommonCode`. Considering the sample sender setup above, your class YourDataClassOrDomainEvent should be within a project named `MyProject.CommonCode`, whose assembly needs to be accessible by the receiver. You can bypass this behaviour - see chapter "Advanced" for more information on this topic.
+This example code will expect your server to receive push data from at `https://my-random-hostname:4711/notificationHub/` and will search for the type definitions of received events by default in `MyProject.CommonCode`. Considering the sample sender setup above, your class `YourDataClassOrDomainEvent` should be within a project named `MyProject.CommonCode`, whose assembly needs to be accessible by the receiver code. If your notification classes are within an assembly shared by sender and receiver, you should just be fine. You can also bypass this behaviour - see chapter "Advanced" for more information on this topic.
 
 You are now ready to consume the received events! Just get a `IPushNotificationHandler` instance from the IoC container and call the `Subscribe` method. Provide the type of the data you're expecting to receive -in our previous example `YourDataClassOrDomainEvent`- and a callback with it as parameter, which will be executed upon data arrival. That's it. 
 
-When subscribing, you will get `DataNotificationSubscription` object in return as kind of token for your subscription. The subscription can be cancelled by calling the `CancelSubscription` and passing this `DataNotificationSubscription` object. As an alternative, you can also cause the subscription to be cancelled by simply disposing the obtained `DataNotificationSubscription` object.
+When subscribing, you will get `DataNotificationSubscription` object in return as kind of token for your subscription. The subscription can be cancelled by calling the `CancelSubscription` method of the `IPushNotificationHandler` instance and passing the obtained `DataNotificationSubscription` object. As an alternative, you can also cause the subscription to be cancelled by simply disposing your `DataNotificationSubscription` object.
 
-If you are for example using it to update a page within a Blazor project, your code could possibly look like this:
+If you for example want to update a page within a Blazor project with the push notifications, your code could possibly look like this:
 
     @page "/sample"
     @using Push4711.Receiver
