@@ -1,5 +1,5 @@
-# ez-event-push
-Need an easy way to push events via SignalR? This might be interesting for you...
+# Push4711
+Need an easy way to push events via SignalR? This one might be interesting for you...
 
 # Usage / Setup
 It's really easy to setup and use this library. Let's walk through the process step by step while observing an example.
