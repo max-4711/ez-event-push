@@ -32,7 +32,7 @@ You are good to go! You can now obtain an IPushNotificationService instance from
         SomeRandomOtherProperty = "4712"
     });
 
-To enable make this work, your transmitted data class -in this case YourDataClassOrDomainEvent- needs to be serializable and implement the INotificationIdentifier interface. It could for exemple use this code:
+To enable make this work, your transmitted data class -in this case YourDataClassOrDomainEvent- just needs to be serializable. For serialization System.Text.Json is being used; so in most cases it should just work. It could for exemple use this code:
 
     using System;
 
