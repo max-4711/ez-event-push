@@ -1,8 +1,8 @@
 # Push4711
-Need an easy way to push events via SignalR? This one might be interesting for you...
+Need a really easy way to push typed events via SignalR? This one might be interesting for you...
 
 # Usage / Setup
-It's really easy to setup and use this library. Let's walk through the process step by step while observing an example.
+It's easy to setup and use this library. Let's walk through the process step by step while observing an example.
 
 ## Sender
 Preparation: Install NuGet package `Push4711.Sender` to your project. 
@@ -123,7 +123,7 @@ Of course you can also use more "traditional" code to consume your incoming push
     }
 
 
-# Advanced
+# Advanced usage
 Coming soon...
 
 ## Specifying full type identifier string / Manually creating the push events
@@ -133,6 +133,9 @@ Coming soon...
 Coming soon...
 
 ## Manually cancelling subscriptions (instead of disposing)
+Coming soon...
+
+# Technical remarks
 Coming soon...
 
 # Contribution
