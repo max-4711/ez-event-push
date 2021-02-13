@@ -34,7 +34,15 @@ namespace Push4711.Receiver
 
             this.isInitialized = true;
 
-            this._hubConnection = new HubConnectionBuilder().WithUrl($"{this._config.NotificationHubUrl}").WithAutomaticReconnect().Build();
+            var connectionUrl = this._config.NotificationHubUrl;
+            if (connectionUrl.EndsWith("notificationHub/") || connectionUrl.EndsWith("notificationHub"))
+            {
+                connectionUrl = connectionUrl.Replace("notificationHub", "");
+                connectionUrl = connectionUrl.TrimEnd('/');
+            }
+            connectionUrl = $"{connectionUrl}notificationHub/";
+
+            this._hubConnection = new HubConnectionBuilder().WithUrl(connectionUrl).WithAutomaticReconnect().Build();
             this._hubConnection.Closed += _hubConnection_Closed;
             this._hubConnection.Reconnected += _hubConnection_Reconnected;
             this._hubConnection.Reconnecting += _hubConnection_Reconnecting;
