@@ -2,10 +2,14 @@
 
 namespace Push4711.Sender
 {
-    interface IPushNotificationService
+    public interface IPushNotificationService
     {
-        void BroadcastRemoteDataNotification<TDataNotification>(TDataNotification dataNotificationObject) where TDataNotification : INotificationIdentifier;
+        public void BroadcastNotification(object payload);
+        public void BroadcastNotification(RawJsonNotification payload);
+        public void BroadcastNotification(string type, string jsonSerializedPayload);
 
-        void SendRemoteDataNotification<TDataNotification>(TDataNotification dataNotificationObject, string receiverConnectionId) where TDataNotification : INotificationIdentifier;
+        public void SendNotification(object payload, string receiverConnectionId);
+        public void SendNotification(RawJsonNotification payload, string receiverConnectionId);
+        public void SendNotification(string type, string jsonSerializedPayload, string receiverConnectionId);
     }
 }

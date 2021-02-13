@@ -1,52 +1,65 @@
-﻿using Microsoft.AspNetCore.SignalR;
-using Microsoft.Extensions.Logging;
-using Push4711.Shared;
+﻿using Push4711.Shared;
+using System.Text.Json;
 
 namespace Push4711.Sender
 {
     public class PushNotificationService : IPushNotificationService
     {
-        private readonly IHubContext<NotificationHub> _hubContext;
-        private readonly ILogger<PushNotificationService> _logger;
+        private readonly INotificationSender _pushNotificationSender;
 
-        public PushNotificationService(IHubContext<NotificationHub> hubContext, ILogger<PushNotificationService> logger)
+        public PushNotificationService(INotificationSender pushNotificationSender)
         {
-            this._hubContext = hubContext;
-            this._logger = logger;
+            this._pushNotificationSender = pushNotificationSender;
         }
 
-        public async void BroadcastRemoteDataNotification<TDataNotification>(TDataNotification dataNotificationObject) where TDataNotification : INotificationIdentifier
+        public void BroadcastNotification(object payload)
         {
-            if (dataNotificationObject == null)
-                return;
-
-            try
+            var dataNotification = new RawJsonNotification
             {
-                await this._hubContext.Clients.All.SendAsync($"OnDataNotification_{typeof(TDataNotification)}", dataNotificationObject);
-            }
-            catch
-            {
-                this._logger.LogWarning($"Unable to broadcast data notification {dataNotificationObject}");
-            }
+                EmbeddedType = payload.GetType().ToString(),
+                JsonPayload = JsonSerializer.Serialize(payload)
+            };
+            this.BroadcastNotification(dataNotification);
         }
 
-        public async void SendRemoteDataNotification<TDataNotification>(TDataNotification dataNotificationObject, string receiverConnectionId) where TDataNotification : INotificationIdentifier
+        public void BroadcastNotification(RawJsonNotification payload)
         {
-            if (dataNotificationObject == null)
-                return;
+            this._pushNotificationSender.BroadcastRemoteDataNotification(payload);
+        }
 
-            var client = this._hubContext.Clients.Client(receiverConnectionId);
-            if (client != null)
+        public void BroadcastNotification(string type, string jsonSerializedPayload)
+        {
+            var dataNotification = new RawJsonNotification
             {
-                try
-                {
-                    await client.SendAsync($"OnDataNotification_{typeof(TDataNotification)}", dataNotificationObject);
-                }
-                catch
-                {
-                    this._logger.LogWarning($"Unable to deliver data notification {dataNotificationObject} to {receiverConnectionId}");
-                }
-            }
+                EmbeddedType = type,
+                JsonPayload = jsonSerializedPayload
+            };
+            this.BroadcastNotification(dataNotification);
+        }
+
+        public void SendNotification(object payload, string receiverConnectionId)
+        {
+            var dataNotification = new RawJsonNotification
+            {
+                EmbeddedType = payload.GetType().ToString(),
+                JsonPayload = JsonSerializer.Serialize(payload)
+            };
+            this.SendNotification(dataNotification, receiverConnectionId);
+        }
+
+        public void SendNotification(RawJsonNotification payload, string receiverConnectionId)
+        {
+            this._pushNotificationSender.SendRemoteDataNotification(payload, receiverConnectionId);
+        }
+
+        public void SendNotification(string type, string jsonSerializedPayload, string receiverConnectionId)
+        {
+            var dataNotification = new RawJsonNotification
+            {
+                EmbeddedType = type,
+                JsonPayload = jsonSerializedPayload
+            };
+            this.SendNotification(dataNotification, receiverConnectionId);
         }
     }
 }
