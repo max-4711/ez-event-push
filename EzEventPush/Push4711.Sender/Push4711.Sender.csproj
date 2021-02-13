@@ -1,7 +1,7 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <Version>1.0.1</Version>
+    <Version>1.0.2</Version>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <Nullable>enable</Nullable>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
@@ -13,6 +13,7 @@
     <RepositoryUrl>https://github.com/max-4711/ez-event-push</RepositoryUrl>
     <RepositoryType>Git</RepositoryType>
     <PackageReleaseNotes>
+      1.0.2: Updated references to shared assembly
       1.0.1: Referenced shared assembly as package (Push4711.Shared) reference instead of a linked project
       1.0.0: Initial release
     </PackageReleaseNotes>
@@ -20,7 +21,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.SignalR.Core" Version="1.1.0" />
-    <PackageReference Include="Push4711.Shared" Version="1.0.0" />
+    <PackageReference Include="Push4711.Shared" Version="1.0.1" />
   </ItemGroup>
 
 </Project>
