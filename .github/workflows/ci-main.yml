@@ -15,5 +15,9 @@ jobs:
       uses: actions/setup-dotnet@v1
     - name: Build packages
       run: dotnet pack EzEventPush/EzEventPush.sln -c Release -o out
-    - name: Push all packages
-      run: dotnet nuget push out/*.nupkg -k ${{ secrets.NUGETORG_PKG_PUSH_SECRET }} -s https://api.nuget.org/v3/index.json --skip-duplicate --no-symbols true
+    - name: Push shared package
+      run: dotnet nuget push out/Push4711.Shared.*.nupkg -k ${{ secrets.NUGETORG_PKG_PUSH_SECRET }} -s https://api.nuget.org/v3/index.json --skip-duplicate --no-symbols true
+    - name: Push sender package
+      run: dotnet nuget push out/Push4711.Sender.*.nupkg -k ${{ secrets.NUGETORG_PKG_PUSH_SECRET }} -s https://api.nuget.org/v3/index.json --skip-duplicate --no-symbols true
+    - name: Push receiver package
+      run: dotnet nuget push out/Push4711.Receiver.*.nupkg -k ${{ secrets.NUGETORG_PKG_PUSH_SECRET }} -s https://api.nuget.org/v3/index.json --skip-duplicate --no-symbols true
